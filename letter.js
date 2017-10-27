@@ -1,72 +1,48 @@
-const colors = require("colors");
-const clear = require('clear');
+const clear = require("clear");
+const color = require("colors");
 
-let Letter = function(wordIn) {
-  this.wordIn = wordIn;
+let letters = function(word) {
+  this.word = word;
   this.dashes = [];
-  this.letterIn = "";
-  this.correct = 0;
-  this.incorrect = 7;
-  this.validate = false;
-  this.usedChar = [];
+  this.usedChars = [];
+  this.wLength = word.length;
+  this.correctCnt = 0;
+  this.incorrectCnt = 0;
+  this.valFound = false;
 
-//Takes in the input letter and loops through the input word and 
-//if it finds the match it will replace the character in the same
-//position in the dashes array.
-  this.SetLetter = function(letterIn) { 
-    
-    this.letterIn = letterIn;    
-
-    if(this.usedChar.indexOf(this.letterIn) === -1){
-      this.usedChar.push(this.letterIn);
-      for(let x = 0; x < wordIn.length; x++)
-        if(this.letterIn === wordIn.charAt(x)){ 
-          this.dashes[x] = letterIn;
-          this.correct += 1;
-          this.validate = true;          
-        } 
-      if(this.validate){
-        clear();
-        console.log(`\nCorrect`.green);
+  this.setLetter = function(letterIn) {
+     this.letterIn = letterIn;
+     if(this.usedChars.indexOf(this.letterIn) !== -1){
+       console.log(`\n${this.letterIn} already used.`.red);
+       console.log(`\n${this.dashes.join(" ")}\n`.green);      
+       return [this.correctCnt, this.incorrectCnt];
+     } else {
+      for(let x = 0; x < this.wLength; x++)
+          if(this.letterIn === word.charAt(x)){
+            this.dashes[x] = letterIn;
+            this.correctCnt++; 
+            this.usedChars.push(letterIn);
+            this.valFound = true;
+          }
+      if(this.valFound){
+          console.log(`\nCorrect.\n`.blue);
+          this.valFound = false;
+      } else {
+          this.usedChars.push(letterIn);
+          this.incorrectCnt++;
+          console.log(`\nIncorrect. ${7 - this.incorrectCnt} tries left.\n`.red);
       }
-
-      if(this.validate === false) {    
-        clear();  
-        this.incorrect -= 1;
-        console.log(`\nIncorrect. ${this.incorrect} tries left.`.red);        
-        if(this.incorrect < 1){
-          console.log('Sorry you lost'.yellow);
-          console.log(`Word was ${this.wordIn}`.green);
-          return false;
-        }
-      }
-    } else {  
-      clear();
-      console.log(`\nCharacter already used. ${this.incorrect} tries left.`.red)
+      console.log(`\n${this.dashes.join(" ")}\n`.green);
+      return [this.correctCnt, this.incorrectCnt];
     }
-    this.displyDashes();
-    this.validate = false;
-    if(this.correct === this.wordIn.length){
-     console.log('YOU WIN!!!!'.yellow);
-     return false;
-    } else 
-     return true; 
   };
 
-  //Shows the dashed after any changes to the array.
-  this.displyDashes = function(){
-     console.log(`\n${this.dashes.join(" ")}\n`);
+  this.setDashesInit = function(){    
+    for(let i = 0; i < this.wLength; i++)
+      this.dashes.push('_');      
+    console.log(`${this.dashes.join(" ")}\n`.green)  ;
   };
-
-  //Only executes when the object is created.
-  //Displays the initial blank array of dashes.
-  this.SetDashesInit = function() {
-    for (let i = 0; i < this.wordIn.length; i++) 
-       this.dashes.push("_");
-    this.outDashes = this.dashes.join(" ");
-    console.log('\n'+this.outDashes+'\n');
-  };
-  this.SetDashesInit();
+  this.setDashesInit();
 };
 
-module.exports = Letter;
+module.exports = letters;

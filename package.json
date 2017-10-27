@@ -1,16 +1,17 @@
 {
-  "name": "hm_node",
+  "name": "hangman",
   "version": "1.0.0",
-  "description": "",
-  "main": "hman.js",
+  "description": "Hangman with constructors.",
+  "main": "hangman.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "author": "",
+  "author": "Alex",
   "license": "ISC",
   "dependencies": {
     "clear": "0.0.1",
     "colors": "^1.1.2",
-    "prompt": "^1.0.0"
+    "inquirer": "^3.3.0",
+    "request": "^2.83.0"
   }
 }
