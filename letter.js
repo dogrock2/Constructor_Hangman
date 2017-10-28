@@ -9,7 +9,13 @@ let letters = function(word) {
   this.correctCnt = 0;
   this.incorrectCnt = 0;
   this.valFound = false;
-
+  
+  /**
+   * Takes in a letter parameter from hangman.js and first checks if its in the 
+   * usedChars array and adds it if not. If it is it displays the message to tell
+   * you that it is repeated. Then it replaces the dashes from array with the letter
+   * and console logs the new dashes array.
+   */
   this.setLetter = function(letterIn) {
      this.letterIn = letterIn;
      if(this.usedChars.indexOf(this.letterIn) !== -1){
@@ -36,7 +42,8 @@ let letters = function(word) {
       return [this.correctCnt, this.incorrectCnt];
     }
   };
-
+ //Initially counts the word and adds the dashes to the dashes array and console
+ //logs the result. Runs only when object is created.
   this.setDashesInit = function(){    
     for(let i = 0; i < this.wLength; i++)
       this.dashes.push('_');      
