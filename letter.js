@@ -1,7 +1,7 @@
 const clear = require("clear");
 const color = require("colors");
 
-let letters = function(word) {
+let letters = function(word, cb) {
   this.word = word;
   this.dashes = [];
   this.usedChars = [];
@@ -9,6 +9,7 @@ let letters = function(word) {
   this.correctCnt = 0;
   this.incorrectCnt = 0;
   this.valFound = false;
+  this.cb = cb;
   
   /**
    * Takes in a letter parameter from hangman.js and first checks if its in the 
@@ -16,7 +17,7 @@ let letters = function(word) {
    * you that it is repeated. Then it replaces the dashes from array with the letter
    * and console logs the new dashes array.
    */
-  this.setLetter = function(letterIn) {
+  this.setLetter = function(letterIn) {     
      this.letterIn = letterIn;
      if(this.usedChars.indexOf(this.letterIn) !== -1){
        console.log(`\n${this.letterIn} already used.`.red);
@@ -47,7 +48,8 @@ let letters = function(word) {
   this.setDashesInit = function(){    
     for(let i = 0; i < this.wLength; i++)
       this.dashes.push('_');      
-    console.log(`${this.dashes.join(" ")}\n`.green)  ;
+    console.log(`${this.dashes.join(" ")}\n`.green);
+    this.cb();
   };
   this.setDashesInit();
 };

@@ -4,15 +4,18 @@ const Letters = require("./letter.js");
 /**
  * Calls API from wordnik and gets a random word.
  */
-let wordFnc = function() {
+let wordFnc = function(cb) {
   this.requestStr =
     "https://api.wordnik.com/v4/words.json/randomWord?" +
     "&minLength=5&maxLength=-1" +
     "&api_key=48dd829661f515d5abc0d03197a00582e888cc7da2484d5c7";
-
+ //this.cb = cb;
   //Grabs the word if no errors and formats the response to extracts only the word.
   //Runs only when object is created.
   this.setWord = function() {
+    this.inFnc = function(){
+       this.cb = cb();
+    }
     this.callLett = '';
     request(this.requestStr, (error, response, body) => {
       this.error = error;
@@ -26,7 +29,7 @@ let wordFnc = function() {
         this.word = this.tempWord
           .slice(0, this.tempWord.length - 1)
           .toUpperCase();
-        this.callLett = new Letters(this.word);        
+        this.callLett = new Letters(this.word, this.inFnc);        
       }
     });      
   };
